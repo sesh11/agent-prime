@@ -11,7 +11,7 @@ def mcp_config() -> Dict[str, Any]:
     return {
         "tavily": {
             "command": "npx",
-            "args": ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey={tavily_api_key}"]
+            "args": ["-y", "mcp-remote", f"https://mcp.tavily.com/mcp/?tavilyApiKey={tavily_api_key}"]
         }
     }
 

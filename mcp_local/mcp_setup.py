@@ -1,5 +1,5 @@
-from mcp import mcp_config
-from mcp.client import MCPClient
+from mcp_local.mcp_config import mcp_config
+from mcp_local.mcp_client import MCPClient
 import asyncio
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
