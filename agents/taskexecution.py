@@ -1,5 +1,5 @@
-from util.utility import invoke_claude
-from mcp.mcp_setup import setup_mcp_servers
+from util.utility import invoke_claude, invoke_claude_with_tools
+from mcp_local.mcp_setup import setup_mcp_servers
 import textwrap
 import anthropic
 import os
@@ -12,7 +12,7 @@ class TaskExecutionAgent:
 
     async def task_execution(self):
         
-        tring_prev_task_responses = "".join(self.prev_tasks_responses)
+        string_prev_task_responses = "".join(self.prev_tasks_responses)
         prompt = textwrap.dedent("""
         You are an extremely helpful assistant that has access to web search, analysis, and scheduling tools. Use tools when you need additional information or when the task requires data or actions from external sources. 
         The task is defined as follows: 
@@ -35,6 +35,11 @@ class TaskExecutionAgent:
         #you need to create an object and assign it the mcp server connections
         #use that object.method name i.e. available tools to get it
         
+        system_prompt = textwrap.dedent("""
+        You are an extremely helpful assistant that is also an expert in using tools. You don't execute any additional tasks other than what is provided to you.
+        You are focused on completing the task and find the shortest and most efficient path to completing the task and getting to the answer.
+        """)
+
         try: 
             
             for tool_name, tool_info in mcp_executor.available_tools.items():
@@ -50,14 +55,7 @@ class TaskExecutionAgent:
                     ]
             
             while True: 
-                response = client.messages.create(
-                    model = "claude-sonnet-4-20250514",
-                    # system=system_prompt, 
-                    max_tokens=1024,
-                    # stop_sequences=stop_sequences,
-                    messages = messages,
-                    tools = claude_tools
-                )
+                response = invoke_claude_with_tools(model="claude-sonnet-4-20250514", messages=messages, system_prompt=system_prompt, claude_tools=claude_tools, max_tokens=1024)
     
                 messages.append({"role": "assistant", "content": response.content})
         

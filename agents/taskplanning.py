@@ -3,6 +3,7 @@ import textwrap
 import os
 import anthropic
 from dotenv import load_dotenv
+from util.utility import invoke_claude
 
 load_dotenv()
 
@@ -75,7 +76,7 @@ class TaskPlanningAgent:
         system_prompt = "Think logically and develop a set of tasks that are logical and can be executed indepedently" 
 
         #Invoke the LLM
-        updated_tasks = self.invoke_claude(model, prompt, system_prompt, assist_content=assist_content, stop_sequences=None)
+        updated_tasks = invoke_claude(model, prompt, system_prompt, assist_content=assist_content, stop_sequences=None)
 
         # DEBUG: Print what Claude returned
         print("=== CLAUDE RESPONSE ===")
@@ -83,7 +84,7 @@ class TaskPlanningAgent:
         print("=== END RESPONSE ===")
 
         #Parse the results in the xml to create a list of updated tasks
-        updated_tasks_list = self.parse_xml(updated_tasks, xml_string_format)
+        updated_tasks_list = self.parse_xml(updated_tasks, self.xml_string_format)
         
         return updated_tasks_list
             
@@ -103,25 +104,25 @@ class TaskPlanningAgent:
                 tasks_list.append({"taskid": taskid, "taskname": taskname})
             return tasks_list
 
-    @staticmethod
-    def invoke_claude(model: str, prompt: str, system_prompt: str, assist_content= "", stop_sequences=None, max_tokens=1024) -> str:
-        api_key = os.environ.get("ANTHROPIC_API_KEY")
+    # @staticmethod
+    # def invoke_claude(model: str, prompt: str, system_prompt: str, assist_content= "", stop_sequences=None, max_tokens=1024) -> str:
+    #     api_key = os.environ.get("ANTHROPIC_API_KEY")
     
-        if not api_key:
-            return "Anthropic API key not found in environment"
+    #     if not api_key:
+    #         return "Anthropic API key not found in environment"
     
-        if not api_key:
-            return "Anthropic API key not found in environment"
+    #     if not api_key:
+    #         return "Anthropic API key not found in environment"
         
-        client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+    #     client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
     
-        response = client.messages.create(
-            model=model,
-            system=system_prompt, 
-            max_tokens=max_tokens,
-            # stop_sequences=stop_sequences,
-            messages = [
-                {"role": "user", "content": prompt},
-                {"role": "assistant", "content": assist_content}]
-        )
-        return response.content[0].text
+    #     response = client.messages.create(
+    #         model=model,
+    #         system=system_prompt, 
+    #         max_tokens=max_tokens,
+    #         # stop_sequences=stop_sequences,
+    #         messages = [
+    #             {"role": "user", "content": prompt},
+    #             {"role": "assistant", "content": assist_content}]
+    #     )
+    #     return response.content[0].text
