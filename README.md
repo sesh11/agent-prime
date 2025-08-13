@@ -1,8 +1,12 @@
 # General Purpose Agent Framework
 
-A general purpose agent framework powered by Claude that breaks down complex requests into simple self-contained executable tasks. Inspired by Claude Code, to first create a set of todos and then requires explicit approval before executing each step. This pattern is particularly useful when agents are about to update state or critical operations.
+A core idea that I’ve been experimenting with is building a general purpose agent that can accomplish a wide variety of tasks both in a consumer and enterprise context. I prefer building agents with simple loops and tool calls (or building workflows enabled with LLMs) but this doesn’t scale as tasks start to get more complex. 
 
-This was intended as a learning exercise and to create a foundation for more complex agentic workflows. The ultimate goal is to build a single all-encompassing agent that works agnostic of model and in theory, perform all tasks that humans can over the internet. In an enterprise context, this could be a single agent that works across the organization to accomplish work. There is a lot more to build here. 
+This is my attempt at building a general purpose agent framework that breaks down complex requests into simple self-contained executable tasks. Inspired by Claude Code, the framework first creates a set of decomposable tasks and then executes each task with approval from the user. This pattern is particularly useful for agents working on critical operations. 
+
+This was intended as a learning exercise and to create a foundation for more complex agentic workflows. The ultimate goal is to build a single all-encompassing agent that works agnostic of model and in theory, perform all tasks that humans can over the internet. In an enterprise context, this could be a single agent that works across the organization to accomplish work. 
+
+It's still early and there is a lot more to build here. 
 
 ## Overview
 
@@ -48,4 +52,4 @@ The framework follows a simple but powerful pattern:
 
 ## Contributing
 
-Want to help build this out? Contributions are welcome! Take a look at the open issues to see what needs work, or feel free to propose new features. 
+Contributions are welcome! Take a look at the open issues to see what needs work, or feel free to propose new features. 
